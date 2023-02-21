@@ -1,0 +1,238 @@
+---
+title: "week 7 notes"
+format: html
+---
+
+# February 21st
+```{r}
+library(ISLR2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(readr)
+library(glmnet)
+library(caret)
+library(car)
+```
+
+```{r}
+df <- Boston
+attach(Boston)
+```
+
+### Regularization/Shrinkage estimators
+
+Achieves a similar objective using a slightly diff strategy. To see this lets look at the function
+
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p + \epsilon
+$$
+Recall that the least-squares objective selects the model with the smallest residual standard error
+$$
+
+$$
+
+
+The solution to this problem is denoted as follows...
+$$
+
+$$
+
+If we wanted to select only a subset of these variables in our final model, we can include a penalty term (include penalty term that doesn't have the intercept)
+$$
+
+$$
+which favors solutions which select smaller subset of the variables. In this setting, the objective function becomes 
+$$
+
+$$
+The most common penalty functions include:
+
+1. Ridge Regression estimator
+$$
+
+$$
+
+1. LASSO regression estimator
+$$
+
+$$
+
+1. General case in glmnet()
+$$
+
+$$
+* We are trying to minimizing L sub lambda function, and p sub lambda is a part of that. If you
+
+
+
+*If any of the $\beta_p$ turns out to be 0, it means that it doesn't have an impact on the model as you are multiplying the variable by 0 so it won't be included (for a change in that $\x_p$, there is no change in the model) --> drops the variables associated with the zeroes
+* The variables that are co-linear are shrunk to 0, there by eliminating those variables from the final model (deems that variable not important)
+
+
+##### LASSO 
+Unlike lm(), the glmnet() function doesn't take in a formula
+
+```{r}
+# glmnet(X,y)
+# x: matrix of covariates
+# y: response vector
+full_model<- lm(medv ~., df)
+X <- model.matrix(full_model)[,-1]
+head(X)
+```
+* Beta coefficients take in account value of scale
+
+
+This section rescales variables so they are all on same scale
+```{r}
+all_cols <- 1:ncol(X)
+drop_scale <- c(4)
+include_scale <- all_cols[-drop_scale]
+
+for (i in include_scale) { X[,i] <- scale(X[,i]) }
+head(X)
+```
+* All values are now in same scale (between -3 and 3)
+
+```{r}
+y <- df$medv
+```
+
+```{r}
+lasso <- cv.glmnet(X,y,alpha = 1)
+# alpha is exponent for function
+```
+
+```{r}
+lasso
+str(lasso)
+```
+
+```{r}
+plot(lasso)
+```
+* For every lambda in range, computes the estimator 
+* plots mean squared error (sum of squared residual) 
+* The penalty we include depends on value of lambda --> diff lambda value leads to different subset of variables selected
+* as lambda increases, the effect that the penalty has on the solution is stronger (the value of p sub lambda also increases)
+* if minimizing p sub lambda, want to drop more variables and sparser solutions
+* as we go from right to left (lambda increases) the number of variables that are selected decreases (number of variables selected is along the top)
+* is a balancing act
+* near 0  penalty = select all variables & has lower mean squared error
+* introducing large penalty --> sprase solutions & has higher mean squared error
+
+* how to known what lambda value is appropriate...
+
+1. select right before where it spikes upwards (choose elbow point) -> this is most stable solution
+1. R has algorithm presented in next code cell that chooses the elbow point that minimizes mean squared error
+
+
+* specifying sequence of values of lambda that you want to search
+```{r}
+lambdas <- 10 ^ seq(-2,1,length.out = 1000)
+lasso <- cv.glmnet(X,y,alpha = 1,lambda = lambdas)
+plot(lasso)
+```
+
+```{r}
+lasso_coef <- coef(lasso, s = "lambda.min")
+# can do lambda.1se to choose different lambda that will result in diff amount of variables chosen
+selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] # exclude the intercept term
+lasso_coef
+selected_vars
+```
+* sparse matrix
+* these values are being calculated using gradient descent
+* the values that have a dot are '0'
+1. the final model is saying that we should have a model that drops age and indus (these were the 2 variables that stepwise regression told us to drop)
+
+
+```{r}
+full_model <- lm(medv ~ . , data=df)
+lasso_model <- lm(y ~ X[, selected_vars])
+```
+
+```{r}
+summary(lasso_model)
+```
+* In this data set, don't have too many variables
+* Lasso is useful because it is one step 
+* In the lasso model, in order to select an appropriate model, need to create model, looking at mean square error and choosing lambda value that is appropriate
+* Variable selection has finite (set) amount of steps 
+* lasso is more efficient for data sets with TONS of variables
+
+
+### Gradient descent
+* Used for solving one of the penalized estimators problems
+* General recipe for fitting models
+* Derivative is telling us slope -> for small change in x, what is change in y
+* If you end up with a minimum point, the derivative will be flat (slope = 0, no change in y for change in x)
+
+* A minimizer is characterized by 2 points
+
+1. derivative has slope of 0
+1. the 2nd derivative has to be positive
+
+
+* compute derivative with respect to every parameter (partial derivative)
+* the solution to 
+
+
+Recall that the solution to a regression problem is given by
+
+$$
+
+$$
+
+where $L(\beta_0, \beta_2, \dots, \beta_p)$ is reffered to as the loss function. If we want to find the values of $(\beta_0, \beta_2, \dots, \beta_p)$ which minimize $L()$, then using the general principle from calculus, we are interested in looking for values such that
+
+$$
+
+$$
+
+In the case of linear regression, the derivatives can be computed by hand, and there exists a closed form solution to the above system of equations
+
+However in many other models, we dont have...
+
+
+
+
+* Compute gradient 
+* Start off at some randomized intialized value and at every step, choose a step size between 0 and 1
+* Perform gradient descent
+
+1. Take one step in direction of negative gradient(direction that leads to decrease in the objective function, L)
+
+* Repeat those steps until reach some sort of stable minimum (when change of L is not significant to continue)
+
+This is how lasso problem is being solved
+
+```{r}
+attach(cars)
+```
+
+```{r}
+loss <- function(b,x,y) {
+  squares <- (y-b[1]-b[2]*x)^2
+  return(sum(squares))
+}
+b <- rnorm(2)
+loss(b, cars$speed, cars$dist)
+```
+
+```{r} 
+# define a function to compute the gradients
+grad <- function(b, Loss, x,y, eps=1e-5){
+  b0_up <- Loss(c(b[1]+eps, b[2]),x,y)
+  b0_dn <- Loss(c(b[1]-eps, b[2]),x,y)
+  
+  b1_up <- Loss(c(b[1], b[2]+eps),x,y)
+  b1_dn <- Loss(c(b[1], b[2]-eps),x,y)
+  
+}
+
+```
+
+# February 23rd
+

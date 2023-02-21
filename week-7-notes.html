@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.313">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>week 7 notes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="week-7-notes_files/libs/clipboard/clipboard.min.js"></script>
+<script src="week-7-notes_files/libs/quarto-html/quarto.js"></script>
+<script src="week-7-notes_files/libs/quarto-html/popper.min.js"></script>
+<script src="week-7-notes_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="week-7-notes_files/libs/quarto-html/anchor.min.js"></script>
+<link href="week-7-notes_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="week-7-notes_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="week-7-notes_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="week-7-notes_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="week-7-notes_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">week 7 notes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="february-21st" class="level1">
+<h1>February 21st</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR2)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: Matrix</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'Matrix'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:tidyr':
+
+    expand, pack, unpack</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loaded glmnet 4.1-6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: lattice</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'caret'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    lift</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: carData</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'car'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    some</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    recode</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> Boston</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(Boston)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="regularizationshrinkage-estimators" class="level3">
+<h3 class="anchored" data-anchor-id="regularizationshrinkage-estimators">Regularization/Shrinkage estimators</h3>
+<p>Achieves a similar objective using a slightly diff strategy. To see this lets look at the function</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p + \epsilon
+\]</span> Recall that the least-squares objective selects the model with the smallest residual standard error $$</p>
+<p>$$</p>
+<p>The solution to this problem is denoted as follows… $$</p>
+<p>$$</p>
+<p>If we wanted to select only a subset of these variables in our final model, we can include a penalty term (include penalty term that doesn’t have the intercept) $$</p>
+<p><span class="math display">\[
+which favors solutions which select smaller subset of the variables. In this setting, the objective function becomes
+\]</span></p>
+<p>$$ The most common penalty functions include:</p>
+<ol type="1">
+<li>Ridge Regression estimator $$</li>
+</ol>
+<p>$$</p>
+<ol type="1">
+<li>LASSO regression estimator $$</li>
+</ol>
+<p>$$</p>
+<ol type="1">
+<li>General case in glmnet() $$</li>
+</ol>
+<p>$$ * We are trying to minimizing L sub lambda function, and p sub lambda is a part of that. If you</p>
+<p><em>If any of the <span class="math inline">\(\beta_p\)</span> turns out to be 0, it means that it doesn’t have an impact on the model as you are multiplying the variable by 0 so it won’t be included (for a change in that <span class="math inline">\(\x_p\)</span>, there is no change in the model) –&gt; drops the variables associated with the zeroes </em> The variables that are co-linear are shrunk to 0, there by eliminating those variables from the final model (deems that variable not important)</p>
+<section id="lasso" class="level5">
+<h5 class="anchored" data-anchor-id="lasso">LASSO</h5>
+<p>Unlike lm(), the glmnet() function doesn’t take in a formula</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># glmnet(X,y)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># x: matrix of covariates</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># y: response vector</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>full_model<span class="ot">&lt;-</span> <span class="fu">lm</span>(medv <span class="sc">~</span>., df)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(full_model)[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     crim zn indus chas   nox    rm  age    dis rad tax ptratio lstat
+1 0.00632 18  2.31    0 0.538 6.575 65.2 4.0900   1 296    15.3  4.98
+2 0.02731  0  7.07    0 0.469 6.421 78.9 4.9671   2 242    17.8  9.14
+3 0.02729  0  7.07    0 0.469 7.185 61.1 4.9671   2 242    17.8  4.03
+4 0.03237  0  2.18    0 0.458 6.998 45.8 6.0622   3 222    18.7  2.94
+5 0.06905  0  2.18    0 0.458 7.147 54.2 6.0622   3 222    18.7  5.33
+6 0.02985  0  2.18    0 0.458 6.430 58.7 6.0622   3 222    18.7  5.21</code></pre>
+</div>
+</div>
+<ul>
+<li>Beta coefficients take in account value of scale</li>
+</ul>
+<p>This section rescales variables so they are all on same scale</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>all_cols <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(X)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>drop_scale <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>include_scale <span class="ot">&lt;-</span> all_cols[<span class="sc">-</span>drop_scale]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> include_scale) { X[,i] <span class="ot">&lt;-</span> <span class="fu">scale</span>(X[,i]) }</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(X)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        crim         zn      indus chas        nox        rm        age
+1 -0.4193669  0.2845483 -1.2866362    0 -0.1440749 0.4132629 -0.1198948
+2 -0.4169267 -0.4872402 -0.5927944    0 -0.7395304 0.1940824  0.3668034
+3 -0.4169290 -0.4872402 -0.5927944    0 -0.7395304 1.2814456 -0.2655490
+4 -0.4163384 -0.4872402 -1.3055857    0 -0.8344581 1.0152978 -0.8090878
+5 -0.4120741 -0.4872402 -1.3055857    0 -0.8344581 1.2273620 -0.5106743
+6 -0.4166314 -0.4872402 -1.3055857    0 -0.8344581 0.2068916 -0.3508100
+       dis        rad        tax    ptratio      lstat
+1 0.140075 -0.9818712 -0.6659492 -1.4575580 -1.0744990
+2 0.556609 -0.8670245 -0.9863534 -0.3027945 -0.4919525
+3 0.556609 -0.8670245 -0.9863534 -0.3027945 -1.2075324
+4 1.076671 -0.7521778 -1.1050216  0.1129203 -1.3601708
+5 1.076671 -0.7521778 -1.1050216  0.1129203 -1.0254866
+6 1.076671 -0.7521778 -1.1050216  0.1129203 -1.0422909</code></pre>
+</div>
+</div>
+<ul>
+<li>All values are now in same scale (between -3 and 3)</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> df<span class="sc">$</span>medv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X,y,<span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co"># alpha is exponent for function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>lasso</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:  cv.glmnet(x = X, y = y, alpha = 1) 
+
+Measure: Mean-Squared Error 
+
+    Lambda Index Measure    SE Nonzero
+min 0.0233    62   25.37 4.572      10
+1se 0.6622    26   29.81 5.035       5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>List of 12
+ $ lambda    : num [1:77] 6.78 6.18 5.63 5.13 4.67 ...
+ $ cvm       : num [1:77] 84.3 77.7 71.2 65.2 59.8 ...
+ $ cvsd      : num [1:77] 8.32 8.21 7.77 7.33 6.81 ...
+ $ cvup      : num [1:77] 92.6 85.9 79 72.6 66.6 ...
+ $ cvlo      : num [1:77] 76 69.5 63.5 57.9 53 ...
+ $ nzero     : Named int [1:77] 0 1 2 2 2 2 2 2 2 3 ...
+  ..- attr(*, "names")= chr [1:77] "s0" "s1" "s2" "s3" ...
+ $ call      : language cv.glmnet(x = X, y = y, alpha = 1)
+ $ name      : Named chr "Mean-Squared Error"
+  ..- attr(*, "names")= chr "mse"
+ $ glmnet.fit:List of 12
+  ..$ a0       : Named num [1:77] 22.5 22.5 22.5 22.5 22.5 ...
+  .. ..- attr(*, "names")= chr [1:77] "s0" "s1" "s2" "s3" ...
+  ..$ beta     :Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  .. .. ..@ i       : int [1:594] 11 5 11 5 11 5 11 5 11 5 ...
+  .. .. ..@ p       : int [1:78] 0 0 1 3 5 7 9 11 13 15 ...
+  .. .. ..@ Dim     : int [1:2] 12 77
+  .. .. ..@ Dimnames:List of 2
+  .. .. .. ..$ : chr [1:12] "crim" "zn" "indus" "chas" ...
+  .. .. .. ..$ : chr [1:77] "s0" "s1" "s2" "s3" ...
+  .. .. ..@ x       : num [1:594] -0.6027 0.0898 -1.0967 0.4001 -1.4067 ...
+  .. .. ..@ factors : list()
+  ..$ df       : int [1:77] 0 1 2 2 2 2 2 2 2 3 ...
+  ..$ dim      : int [1:2] 12 77
+  ..$ lambda   : num [1:77] 6.78 6.18 5.63 5.13 4.67 ...
+  ..$ dev.ratio: num [1:77] 0 0.0924 0.1738 0.2527 0.3182 ...
+  ..$ nulldev  : num 42716
+  ..$ npasses  : int 716
+  ..$ jerr     : int 0
+  ..$ offset   : logi FALSE
+  ..$ call     : language glmnet(x = X, y = y, alpha = 1)
+  ..$ nobs     : int 506
+  ..- attr(*, "class")= chr [1:2] "elnet" "glmnet"
+ $ lambda.min: num 0.0233
+ $ lambda.1se: num 0.662
+ $ index     : int [1:2, 1] 62 26
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:2] "min" "1se"
+  .. ..$ : chr "Lambda"
+ - attr(*, "class")= chr "cv.glmnet"</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week-7-notes_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li><p>For every lambda in range, computes the estimator</p></li>
+<li><p>plots mean squared error (sum of squared residual)</p></li>
+<li><p>The penalty we include depends on value of lambda –&gt; diff lambda value leads to different subset of variables selected</p></li>
+<li><p>as lambda increases, the effect that the penalty has on the solution is stronger (the value of p sub lambda also increases)</p></li>
+<li><p>if minimizing p sub lambda, want to drop more variables and sparser solutions</p></li>
+<li><p>as we go from right to left (lambda increases) the number of variables that are selected decreases (number of variables selected is along the top)</p></li>
+<li><p>is a balancing act</p></li>
+<li><p>near 0 penalty = select all variables &amp; has lower mean squared error</p></li>
+<li><p>introducing large penalty –&gt; sprase solutions &amp; has higher mean squared error</p></li>
+<li><p>how to known what lambda value is appropriate…</p></li>
+</ul>
+<ol type="1">
+<li>select right before where it spikes upwards (choose elbow point) -&gt; this is most stable solution</li>
+<li>R has algorithm presented in next code cell that chooses the elbow point that minimizes mean squared error</li>
+</ol>
+<ul>
+<li>specifying sequence of values of lambda that you want to search</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>lambdas <span class="ot">&lt;-</span> <span class="dv">10</span> <span class="sc">^</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">1</span>,<span class="at">length.out =</span> <span class="dv">1000</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>lasso <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(X,y,<span class="at">alpha =</span> <span class="dv">1</span>,<span class="at">lambda =</span> lambdas)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lasso)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="week-7-notes_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>lasso_coef <span class="ot">&lt;-</span> <span class="fu">coef</span>(lasso, <span class="at">s =</span> <span class="st">"lambda.min"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co"># can do lambda.1se to choose different lambda that will result in diff amount of variables chosen</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>selected_vars <span class="ot">&lt;-</span> <span class="fu">rownames</span>(lasso_coef)[<span class="fu">which</span>(<span class="fu">abs</span>(lasso_coef) <span class="sc">&gt;</span> <span class="dv">0</span>)][<span class="sc">-</span><span class="dv">1</span>] <span class="co"># exclude the intercept term</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>lasso_coef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>13 x 1 sparse Matrix of class "dgCMatrix"
+                    s1
+(Intercept) 22.3364564
+crim        -0.9699611
+zn           0.9883164
+indus        .        
+chas         2.8386591
+nox         -2.0065931
+rm           2.6228933
+age          .        
+dis         -3.0139383
+rad          2.1216097
+tax         -1.7832582
+ptratio     -1.9852213
+lstat       -3.8973959</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>selected_vars</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "crim"    "zn"      "chas"    "nox"     "rm"      "dis"     "rad"    
+ [8] "tax"     "ptratio" "lstat"  </code></pre>
+</div>
+</div>
+<ul>
+<li>sparse matrix</li>
+<li>these values are being calculated using gradient descent</li>
+<li>the values that have a dot are ‘0’</li>
+</ul>
+<ol type="1">
+<li>the final model is saying that we should have a model that drops age and indus (these were the 2 variables that stepwise regression told us to drop)</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>full_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(medv <span class="sc">~</span> . , <span class="at">data=</span>df)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>lasso_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> X[, selected_vars])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lasso_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ X[, selected_vars])
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-15.1814  -2.7625  -0.6243   1.8448  26.3920 
+
+Coefficients:
+                          Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                22.3342     0.2211 101.016  &lt; 2e-16 ***
+X[, selected_vars]crim     -1.0465     0.2832  -3.696 0.000244 ***
+X[, selected_vars]zn        1.0773     0.3189   3.378 0.000787 ***
+X[, selected_vars]chas      2.8719     0.8626   3.329 0.000935 ***
+X[, selected_vars]nox      -2.1162     0.4131  -5.122 4.33e-07 ***
+X[, selected_vars]rm        2.5807     0.2875   8.978  &lt; 2e-16 ***
+X[, selected_vars]dis      -3.1922     0.3952  -8.078 5.08e-15 ***
+X[, selected_vars]rad       2.4723     0.5568   4.440 1.11e-05 ***
+X[, selected_vars]tax      -2.0716     0.5741  -3.608 0.000340 ***
+X[, selected_vars]ptratio  -2.0155     0.2824  -7.138 3.39e-12 ***
+X[, selected_vars]lstat    -3.9027     0.3388 -11.519  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.789 on 495 degrees of freedom
+Multiple R-squared:  0.7342,    Adjusted R-squared:  0.7289 
+F-statistic: 136.8 on 10 and 495 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<ul>
+<li>In this data set, don’t have too many variables</li>
+<li>Lasso is useful because it is one step</li>
+<li>In the lasso model, in order to select an appropriate model, need to create model, looking at mean square error and choosing lambda value that is appropriate</li>
+<li>Variable selection has finite (set) amount of steps</li>
+<li>lasso is more efficient for data sets with TONS of variables</li>
+</ul>
+</section>
+</section>
+<section id="gradient-descent" class="level3">
+<h3 class="anchored" data-anchor-id="gradient-descent">Gradient descent</h3>
+<ul>
+<li><p>Used for solving one of the penalized estimators problems</p></li>
+<li><p>General recipe for fitting models</p></li>
+<li><p>Derivative is telling us slope -&gt; for small change in x, what is change in y</p></li>
+<li><p>If you end up with a minimum point, the derivative will be flat (slope = 0, no change in y for change in x)</p></li>
+<li><p>A minimizer is characterized by 2 points</p></li>
+</ul>
+<ol type="1">
+<li>derivative has slope of 0</li>
+<li>the 2nd derivative has to be positive</li>
+</ol>
+<ul>
+<li>compute derivative with respect to every parameter (partial derivative)</li>
+<li>the solution to</li>
+</ul>
+<p>Recall that the solution to a regression problem is given by</p>
+<p>$$</p>
+<p>$$</p>
+<p>where <span class="math inline">\(L(\beta_0, \beta_2, \dots, \beta_p)\)</span> is reffered to as the loss function. If we want to find the values of <span class="math inline">\((\beta_0, \beta_2, \dots, \beta_p)\)</span> which minimize <span class="math inline">\(L()\)</span>, then using the general principle from calculus, we are interested in looking for values such that</p>
+<p>$$</p>
+<p>$$</p>
+<p>In the case of linear regression, the derivatives can be computed by hand, and there exists a closed form solution to the above system of equations</p>
+<p>However in many other models, we dont have…</p>
+<ul>
+<li>Compute gradient</li>
+<li>Start off at some randomized intialized value and at every step, choose a step size between 0 and 1</li>
+<li>Perform gradient descent</li>
+</ul>
+<ol type="1">
+<li>Take one step in direction of negative gradient(direction that leads to decrease in the objective function, L)</li>
+</ol>
+<ul>
+<li>Repeat those steps until reach some sort of stable minimum (when change of L is not significant to continue)</li>
+</ul>
+<p>This is how lasso problem is being solved</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attach</span>(cars)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>loss <span class="ot">&lt;-</span> <span class="cf">function</span>(b,x,y) {</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  squares <span class="ot">&lt;-</span> (y<span class="sc">-</span>b[<span class="dv">1</span>]<span class="sc">-</span>b[<span class="dv">2</span>]<span class="sc">*</span>x)<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">sum</span>(squares))</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">2</span>)</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a><span class="fu">loss</span>(b, cars<span class="sc">$</span>speed, cars<span class="sc">$</span>dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 105725</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define a function to compute the gradients</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>grad <span class="ot">&lt;-</span> <span class="cf">function</span>(b, Loss, x,y, <span class="at">eps=</span><span class="fl">1e-5</span>){</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  b0_up <span class="ot">&lt;-</span> <span class="fu">Loss</span>(<span class="fu">c</span>(b[<span class="dv">1</span>]<span class="sc">+</span>eps, b[<span class="dv">2</span>]),x,y)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  b0_dn <span class="ot">&lt;-</span> <span class="fu">Loss</span>(<span class="fu">c</span>(b[<span class="dv">1</span>]<span class="sc">-</span>eps, b[<span class="dv">2</span>]),x,y)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  b1_up <span class="ot">&lt;-</span> <span class="fu">Loss</span>(<span class="fu">c</span>(b[<span class="dv">1</span>], b[<span class="dv">2</span>]<span class="sc">+</span>eps),x,y)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  b1_dn <span class="ot">&lt;-</span> <span class="fu">Loss</span>(<span class="fu">c</span>(b[<span class="dv">1</span>], b[<span class="dv">2</span>]<span class="sc">-</span>eps),x,y)</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="february-23rd" class="level1">
+<h1>February 23rd</h1>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
