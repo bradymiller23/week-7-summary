@@ -494,11 +494,25 @@ k <- 5
 folds <- sample(1:k, nrow(df), replace = T)
 ```
 
-```r
+```{r}
 df_folds <- list()
 
+# define list of data frame where every list has train and test
 for (i in 1:k){
   df_folds[[i]] <- list()
-  df_folds[[i]]$train = df
+  df_folds[[i]]$train = df[which(folds == i), ]
+}
+```
+
+
+```{r}
+nrow(df_folds[[2]]$train) + nrow(df_folds[[2]]$test - nrow(df))
+
+
+kfold_mspe <- c()
+for (i in 1:k) {
+  model <- lm(medv ~ ., df_folds[[i]]$train)
+  y_hat <- predict(model, df_folds[[i]]$test)
+  kfold_mspe[i] <- mean((y_hat - df_folds[[i]]$test$medv)^2)
 }
 ```
