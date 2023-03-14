@@ -312,9 +312,9 @@ for (i in 1:steps){
 * Get rid of functions that are long and tedious to write out (ex. the gradient
 descent function we wrote before)
 * Get rid of numerical instability
-* Want to be able to write out loss funciton & automatically be able to caluclate
+* Want to be able to write out loss function & automatically be able to calculate
 loss for each parameter
-* calcualting gradinets for any funciton w/o the need to solve tedious calc
+* calculating gradients for any function w/o the need to solve tedious calculus
   problems
 ```{r}
 # vector of 5 values
