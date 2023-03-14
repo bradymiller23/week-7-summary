@@ -38,6 +38,7 @@ library(readr)
 library(glmnet)
 library(caret)
 library(car)
+library(torch)
 
 df <- Boston
 attach(Boston)
@@ -372,8 +373,207 @@ Include a _very brief_ summary of what you learnt in this class here.
 
 Today, I learnt the following concepts in class:
 
-1. Item 1
-1. Item 2
-1. Item 3
+1. Automatic differentiation
+1. Cross validation
+1. k-fold Cross Validation
 :::
 
+### Automatic differentiation
+
+* Get rid of functions that are long/tedious to write out (ex. the gradient
+descent function we wrote before) and numerical instability
+* Want to be able to write out loss function & automatically be able to calculate
+loss for each parameter
+* Automatic differentiation helps calculate gradients for any function without the 
+  need to solve tedious calculus problems
+```{r}
+# vector of 5 values
+# c(5,1) tells shape --> 5 rows, 1 column
+# 2nd part says that it's matrix, so you can calculate the gradient descent
+x <- torch_randn(c(5,1), requires_grad = TRUE)  
+x
+```
+
+* matrix = 2D tensor
+* vector = 1D tensor
+
+```{r}
+# sqrt(sum(as_array(x)^2)^10 is what torch_norm does
+f <- function(x){
+  torch_norm(x)^10
+}
+
+y <- f(x)
+y
+
+# this stops compiler from keeping track of changes to x & start computing gradients
+y$backward()
+```
+
+
+```{r}
+x$grad
+```
+
+
+```{r}
+(5*torch_norm(x)^8) * (2*x)
+```
+
+
+```{r}
+x <- torch_randn(c(10,1), requires_grad = TRUE)
+x
+y <- torch_randn(c(10,1), requires_grad = TRUE)
+y
+
+f <- function(x,y) {
+  sum(x*y)
+}
+
+z <- f(x,y)
+z
+z$backward()
+```
+
+
+```{r}
+c(x$grad, y$grad)
+```
+
+
+###### Example of automatic differentiation using the cars data set
+```{r}
+# using the speed and distance variables 
+x <- torch_tensor(cars$speed, dtype = torch_float())
+y <- torch_tensor(cars$dist, dtype = torch_float())
+
+plot(x,y)
+```
+
+
+
+```{r}
+b <- torch_zeros(c(2,1), dtype=torch_float(), requires_grad= TRUE)
+b
+```
+
+```{r}
+loss <- nn_mse_loss()
+```
+
+
+```{r}
+b <- torch_zeros(c(2,1), dtype=torch_float(), requires_grad = TRUE)
+steps <- 5000
+L <- rep(Inf, steps)
+eta <- 0.5
+optimizer <- optim_adam(b, lr=eta)
+
+
+# boiler plate for any optimization that we do 
+for (i in 1:steps){
+  # compute predicted value (contains slope and intercept)
+  y_hat <- x * b[2] + b[1]
+  # compute loss l (want to compute gradient with respect to loss)
+  l <- loss(y_hat,y)
+  
+  L[i] <- l$item()
+  optimizer$zero_grad()
+  # tells to stop here and take gradient from here
+  l$backward()
+  # tells to take step in direction of negative gradient for thing inside optimizer
+  optimizer$step() # more intelligent optimizer than previous formula used
+  
+  if(i %in% c(1:10) || i %% 200 == 0){
+    cat(sprintf("Iteration: %s\t Loss value: %s\n", i, L[i]))
+  }
+}
+```
+
+* Brings the loss down on a much quicker trajectory
+
+
+
+```{r}
+options(repr.plot.width = 12, repr.plot.height = 7)
+
+par(mfrow=c(1,2))
+plot(x,y)
+
+abline(as_array(b))
+```
+
+
+### Cross Validation
+
+```{r}
+df <- Boston %>% drop_na()
+head(df)
+dim(df)
+```
+Spliting data into training (80%) and testing sets (20%)
+
+
+```{r}
+k <- 5
+fold <- sample(1:nrow(df), nrow(df)/5)
+fold
+```
+* AIC is a goodness of fit parameter (similar to $R^2$)
+
+* only creating model using training data
+* use parameters from that model to predict what the values would be on test set
+* see the discrepancy between predicted value and actual error (test error)
+```{r}
+train <- df %>% slice(-fold)
+test <- df %>% slice(fold)
+```
+
+
+```{r}
+model <- lm(medv ~., data = train)
+summary(model)
+```
+
+```{r}
+y_test <- predict(model, newdata = test)
+```
+
+```{r}
+# mean squared prediction error
+mspe <- mean((test$medv - y_test)^2)
+mspe
+```
+* If you make training/testing 50-50, then the mspe will decrease/increase??
+  1. This depends on the portion of data that is selected in the 50% training set
+* To get rid of variability, use "k-fold cross validation"
+
+
+
+
+### k-Fold Cross Validation
+* uses similar logic as before but now you pick number of folds
+* split data into k disjoint subsets of rows 
+  1. 1000 rows becomes k datasets of 1000/k rows
+* then you select 1 of the 5 datasets as test, and rest as training set
+* train on 4, predict on test and make mspe
+* do this for all 5 blocks, using each as test
+* have a mspe for every fold (in this case have 5 mspe's)
+* find average of those mspe
+
+```{r}
+k <- 5
+folds <- sample(1:k, nrow(df), replace = T)
+```
+
+```{r}
+df_folds <- list()
+
+for (i in 1:k){
+  df_folds[[i]] <- list()
+  df_folds[[i]]$train = df
+}
+
+df_folds
+```

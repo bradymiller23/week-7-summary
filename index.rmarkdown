@@ -1,0 +1,606 @@
+---
+title: "Weekly Summary Template"
+author: "Brady Miller"
+title-block-banner: true
+title-block-style: default
+toc: true
+format: html
+# format: pdf
+---
+
+
+---
+
+## Tuesday, Feb 21
+
+::: {.callout-important}
+## TIL
+
+Include a _very brief_ summary of what you learnt in this class here. 
+
+Today, I learnt the following concepts in class:
+
+1. General regularization/shrinkage estimators
+1. LASSO regression estimator
+1. Gradient descent
+:::
+
+---
+title: "week 7 notes"
+format: html
+---
+
+```{r}
+# importing necessary libraries and the data set utilized in class
+library(ISLR2)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(readr)
+library(glmnet)
+library(caret)
+library(car)
+library(torch)
+
+df <- Boston
+attach(Boston)
+```
+
+
+
+# February 21st
+
+
+### Regularization/Shrinkage estimators
+
+Objective function defined below: 
+$$
+y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + ... + \beta_p x_p + \epsilon
+$$
+
+The least-squares objective selects the model with the smallest residual 
+standard error
+$$
+L(\beta_0, \beta_2, \dots, \beta_p) = SS_{Res} = \sum_{i=1}^n (y_i - \beta_0 - \beta_1 x_{1,i} - \dots - \beta_p x_{p,i})^2
+$$
+
+The solution to this problem is denoted as follows...
+$$
+(b_1, b_2, \dots, b_p) = \mathop{\arg\min}\limits_{\beta_1 \dots \beta_p} L(\beta_0, \beta_1, \dots, \beta_p)
+$$
+* Don't always want every variable from a data set in our final model
+
+* To select only a subset of these variables in our final model, we can include 
+  a penalty term (include penalty term that doesn't have the intercept)
+* Below is the penalty term
+
+$$
+p_\lambda(\beta_1, \dots, \beta_p)
+$$
+* This penalty term favors solutions which select smaller subset of the
+  variables (sparser solutions),as some variables may not be 'important' to the 
+  final model.
+  
+* When we include the penalty term, the objective function becomes...
+
+$$
+L(\beta_0, \beta_1, \dots, \beta_p) = L(\beta_0, \beta_2, \dots, \beta_p) + p_\lambda(\beta_1, \dots, \beta_p) 
+$$
+
+In class we mentioned some of the most common penalty functions which are: 
+
+1. Ridge Regression estimator
+$$
+p_\lambda = \beta_1^2 + \beta_2^2 + \dots + \beta_p^2
+$$
+
+1. LASSO regression estimator
+$$
+p_\lambda = |\beta_1| + |\beta_2| + \dots + |\beta_p| 
+$$
+
+1. General case in glmnet()
+$$
+p_\lambda = |\beta_1|^\alpha + |\beta_2|^\alpha + \dots + |\beta_p|^\alpha 
+$$
+
+
+In the case of each penalty term, we can see that we want to find a solution 
+which:
+
+* Minimizes $SS_{Res}$, and
+* Minimizes $p_\lambda$, which means that we want to find a solution which 
+  favors sparser solutions
+
+
+How the penalty term impacts the objective function: 
+
+* After implementing the penalty function if any of the $\beta_p$ turns out to 
+  be 0, it means that it doesn't have an impact on the model as you are 
+  multiplying the variable by 0 so it won't be included (for a change in that 
+  $\x_p$, there is no change in the model) --> the variables associated with the
+  zeroes are then dropped from the final model
+* The variables that are co-linear are shrunk to 0, therefore eliminating those 
+  variables from the final model (deems that variable not important)
+
+
+### LASSO 
+
+Unlike lm(), the glmnet() function doesn't take in a formula
+
+To use LASSO we can first rescale the variables so they are all on same scale
+
+```{r}
+full_model<- lm(medv ~., df)
+X <- model.matrix(full_model)[,-1]
+head(X)
+
+all_cols <- 1:ncol(X)
+drop_scale <- c(4)
+include_scale <- all_cols[-drop_scale]
+
+for (i in include_scale) { X[,i] <- scale(X[,i]) }
+head(X)
+```
+
+
+All values are now in same scale (between -3 and 3)
+
+
+```{r}
+y <- df$medv
+```
+
+```{r}
+lasso <- cv.glmnet(X,y,alpha = 1)
+# alpha is exponent for function
+```
+
+```{r}
+lasso
+```
+
+```{r}
+plot(lasso)
+```
+
+Plot explanation: 
+
+* For every lambda in range, computes the estimator 
+* plots mean squared error (sum of squared residual) 
+* The penalty we include depends on value of lambda --> different lambda value
+  leads to different subset of variables selected
+* As lambda increases, the effect that the penalty has on the solution is 
+  stronger (the value of p sub lambda also increases)
+* If minimizing $p_{\lambda}$, want to drop more variables and sparser solutions
+* As we go from right to left (lambda increases) the number of variables that 
+  are selected decreases (number of variables selected is along the top)
+* Is a balancing act
+* Near 0  penalty = select all variables & has lower mean squared error
+* Introducing large penalty --> sparse solutions & has higher mean squared error
+
+
+How to known what lambda value is appropriate...
+
+* select the $\lambda$ value right before where it spikes upwards 
+  (choose elbow point), as this is most stable solution
+    1. R has algorithm presented in next code cell that chooses the elbow point 
+       that minimizes mean squared error
+
+
+In the code below, we specifying sequence of values of lambda to search
+
+```{r}
+lambdas <- 10 ^ seq(-2,1,length.out = 1000)
+lasso <- cv.glmnet(X,y,alpha = 1,lambda = lambdas)
+plot(lasso)
+```
+
+```{r}
+lasso_coef <- coef(lasso, s = "lambda.min")
+# can do lambda.1se to choose different lambda that will result in different
+# amount of variables chosen
+selected_vars <- rownames(lasso_coef)[which(abs(lasso_coef) > 0)][-1] 
+# excludes the intercept term
+lasso_coef
+selected_vars
+```
+
+* sparse matrix
+* these values are being calculated using gradient descent
+* the values that have a dot are '0'
+  1. the final model is saying that we should have a model that drops age and 
+     indus (these were the 2 variables that stepwise regression told us to drop)
+
+
+
+```{r}
+full_model <- lm(medv ~ ., data=df)
+lasso_model <- lm(y ~ X[, selected_vars])
+```
+
+```{r}
+summary(lasso_model)
+```
+
+LASSO summary
+
+* Lasso is useful because it is one step 
+* In the lasso model, in order to select an appropriate model, need to create 
+  model, looking at mean square error and choosing lambda value that is 
+  appropriate
+* Variable selection has finite (set) amount of steps 
+* lasso is more efficient for data sets with TONS of variables
+
+
+
+
+### Gradient descent
+
+* Used for solving one of the penalized estimators problems
+* General recipe for fitting models
+* Derivative is telling us slope (for small change in x, what is change in y)
+* If you end up with a minimum point, the derivative will be flat (slope = 0, 
+  no change in y for change in x)
+
+* A minimizer is characterized by 2 points
+
+  1. derivative has slope of 0
+  1. the 2nd derivative has to be positive
+
+
+* To do gradient descent, compute derivative with respect to every parameter
+  (partial derivative)
+
+
+Recall that the solution to a regression problem is given by
+
+$$
+(b_1, b_2, \dots, b_p) = \mathop{\arg\min}\limits_{\beta_1 \dots \beta_p} L(\beta_0, \beta_1, \dots, \beta_p)
+$$
+
+where $L(\beta_0, \beta_2, \dots, \beta_p)$ is referred to as the loss function.
+If we want to find the values of $(\beta_0, \beta_2, \dots, \beta_p)$ which 
+minimize $L()$, then using the general principle from calculus, we are 
+interested in looking for values such that the partial derivative with respect 
+to each $\beta$ is 0.
+
+
+In the case of linear regression, the derivatives can be computed by hand, and 
+there exists a closed form solution to the above system of equations
+
+
+However, in many other models, we don't have a method for obtaining closed form 
+solutions. In such cases, the general strategy is as follows: 
+
+1.  Compute gradient 
+1.  Choose a step size $\eta$ between (0,1) 
+    * Start off at some randomized initialized value and at every step, choose a
+      step size between 0 and 1
+1. Perform gradient descent
+    * Take one step in direction of negative gradient(direction that leads to 
+      decrease in the objective function, L)
+
+* Repeat those steps until you reach some sort of stable minimum (when change 
+  of L is not significant to continue)
+
+
+This is how lasso problem is being solved
+
+```{r}
+attach(cars)
+```
+
+Creating a loss function that calculates mean squared error
+
+```{r}
+Loss <- function(b,x,y) {
+  squares <- (y - b[1] - b[2]*x)^2
+  return(sum(squares))
+}
+b <- rnorm(2)
+Loss(b, cars$speed, cars$dist)
+```
+
+```{r} 
+# define a function to compute the gradients
+grad <- function(b, Loss, x,y, eps=1e-5){
+  b0_up <- Loss(c(b[1]+eps, b[2]),x,y)
+  b0_dn <- Loss(c(b[1]-eps, b[2]),x,y)
+  
+  b1_up <- Loss(c(b[1], b[2]+eps),x,y)
+  b1_dn <- Loss(c(b[1], b[2]-eps),x,y)
+ 
+  grad_b0_L <- (b0_up - b0_dn) / (2 * eps)
+  grad_b1_L <- (b1_up - b1_dn) / (2 * eps) 
+  
+  return(c(grad_b0_L, grad_b1_L))
+}
+
+grad(b,Loss, cars$speed, cars$dist)
+```
+
+```{r}
+steps <- 1000
+L <- rep(Inf, steps)
+eta <- 1e-7
+b <- 10 * rnorm(2)
+
+for (i in 1:steps){
+  b <- b - eta * grad(b, Loss, cars$speed, cars$dist)
+  L[i] <- Loss(b, cars$speed, cars$dist)
+}
+```
+
+
+Creates a plot that shows the loss value for each index compared to the fitted
+line for the variables we plotted
+
+```{r}
+options(repr.plot.width=12, repr.plot.height=7)
+par(mfrow=c(1,2))
+# Plot the final result
+plot(dist ~ speed, cars, pch=20, main = "Fitted Line")
+abline(b, col = 'red')
+
+# Plot the change in loss function value
+plot(L, type ='b', pch=20, col='dodgerblue', main='Loss value')
+```
+
+
+
+This next code chunk breaks down the loss function into various parts so you can 
+see how the loss function progress at given indexes, along with the associated 
+fitted line for the distance and speed plot
+
+```{r}
+options(repr.plot.width=12, repr.plot.height=7)
+steps <- 2000
+L <- rep(Inf, steps)
+eta <- 1e-7
+b <- 10 * rnorm(2)
+
+for (i in 1:steps){
+  b <- b - eta * grad(b, Loss, cars$speed, cars$dist)
+  L[i] <- Loss(b, cars$speed, cars$dist)
+  
+  if (i %% 100 == 0){
+    par(mfrow=c(1,2))
+    # Plot the final result
+    plot(dist ~ speed, cars, pch=20, main = "Fitted Line")
+    abline(b, col = 'red')
+    
+    # Plot the change in loss function value
+    plot(L, type ='b', pch=20, col='dodgerblue', main='Loss value')
+  }
+}
+```
+
+
+
+ 
+
+
+## Thursday, Feb 23
+
+
+
+::: {.callout-important}
+## TIL
+
+Include a _very brief_ summary of what you learnt in this class here. 
+
+Today, I learnt the following concepts in class:
+
+1. Automatic differentiation
+1. Cross validation
+1. k-fold Cross Validation
+:::
+
+### Automatic differentiation
+
+* Get rid of functions that are long/tedious to write out (ex. the gradient
+descent function we wrote before) and numerical instability
+* Want to be able to write out loss function & automatically be able to calculate
+loss for each parameter
+* Automatic differentiation helps calculate gradients for any function without the 
+  need to solve tedious calculus problems
+
+```{r}
+# vector of 5 values
+# c(5,1) tells shape --> 5 rows, 1 column
+# 2nd part says that it's matrix, so you can calculate the gradient descent
+x <- torch_randn(c(5,1), requires_grad = TRUE)  
+x
+```
+
+
+* matrix = 2D tensor
+* vector = 1D tensor
+
+
+```{r}
+# sqrt(sum(as_array(x)^2)^10 is what torch_norm does
+f <- function(x){
+  torch_norm(x)^10
+}
+
+y <- f(x)
+y
+
+# this stops compiler from keeping track of changes to x & start computing gradients
+y$backward()
+```
+
+```{r}
+x$grad
+```
+
+```{r}
+(5*torch_norm(x)^8) * (2*x)
+```
+
+```{r}
+x <- torch_randn(c(10,1), requires_grad = TRUE)
+x
+y <- torch_randn(c(10,1), requires_grad = TRUE)
+y
+
+f <- function(x,y) {
+  sum(x*y)
+}
+
+z <- f(x,y)
+z
+z$backward()
+```
+
+```{r}
+c(x$grad, y$grad)
+```
+
+
+
+###### Example of automatic differentiation using the cars data set
+
+```{r}
+# using the speed and distance variables 
+x <- torch_tensor(cars$speed, dtype = torch_float())
+y <- torch_tensor(cars$dist, dtype = torch_float())
+
+plot(x,y)
+```
+
+```{r}
+b <- torch_zeros(c(2,1), dtype=torch_float(), requires_grad= TRUE)
+b
+```
+
+```{r}
+loss <- nn_mse_loss()
+```
+
+```{r}
+b <- torch_zeros(c(2,1), dtype=torch_float(), requires_grad = TRUE)
+steps <- 5000
+L <- rep(Inf, steps)
+eta <- 0.5
+optimizer <- optim_adam(b, lr=eta)
+
+
+# boiler plate for any optimization that we do 
+for (i in 1:steps){
+  # compute predicted value (contains slope and intercept)
+  y_hat <- x * b[2] + b[1]
+  # compute loss l (want to compute gradient with respect to loss)
+  l <- loss(y_hat,y)
+  
+  L[i] <- l$item()
+  optimizer$zero_grad()
+  # tells to stop here and take gradient from here
+  l$backward()
+  # tells to take step in direction of negative gradient for thing inside optimizer
+  optimizer$step() # more intelligent optimizer than previous formula used
+  
+  if(i %in% c(1:10) || i %% 200 == 0){
+    cat(sprintf("Iteration: %s\t Loss value: %s\n", i, L[i]))
+  }
+}
+```
+
+
+* Brings the loss down on a much quicker trajectory
+
+
+
+
+```{r}
+options(repr.plot.width = 12, repr.plot.height = 7)
+
+par(mfrow=c(1,2))
+plot(x,y)
+
+abline(as_array(b))
+```
+
+
+
+### Cross Validation
+
+
+```{r}
+df <- Boston %>% drop_na()
+head(df)
+dim(df)
+```
+
+Spliting data into training (80%) and testing sets (20%)
+
+
+
+```{r}
+k <- 5
+fold <- sample(1:nrow(df), nrow(df)/5)
+fold
+```
+
+* AIC is a goodness of fit parameter (similar to $R^2$)
+
+* only creating model using training data
+* use parameters from that model to predict what the values would be on test set
+* see the discrepancy between predicted value and actual error (test error)
+
+```{r}
+train <- df %>% slice(-fold)
+test <- df %>% slice(fold)
+```
+
+```{r}
+model <- lm(medv ~., data = train)
+summary(model)
+```
+
+```{r}
+y_test <- predict(model, newdata = test)
+```
+
+```{r}
+# mean squared prediction error
+mspe <- mean((test$medv - y_test)^2)
+mspe
+```
+
+* If you make training/testing 50-50, then the mspe will decrease/increase??
+  1. This depends on the portion of data that is selected in the 50% training set
+* To get rid of variability, use "k-fold cross validation"
+
+
+
+
+### k-Fold Cross Validation
+* uses similar logic as before but now you pick number of folds
+* split data into k disjoint subsets of rows 
+  1. 1000 rows becomes k datasets of 1000/k rows
+* then you select 1 of the 5 datasets as test, and rest as training set
+* train on 4, predict on test and make mspe
+* do this for all 5 blocks, using each as test
+* have a mspe for every fold (in this case have 5 mspe's)
+* find average of those mspe
+
+
+```{r}
+k <- 5
+folds <- sample(1:k, nrow(df), replace = T)
+```
+
+```{r}
+df_folds <- list()
+
+for (i in 1:k){
+  df_folds[[i]] <- list()
+  df_folds[[i]]$train = df
+}
+
+df_folds
+```
+
