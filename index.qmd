@@ -4,8 +4,8 @@ author: "Brady Miller"
 title-block-banner: true
 title-block-style: default
 toc: true
-format: html
-# format: pdf
+#format: html
+format: pdf
 ---
 
 ---
@@ -115,7 +115,7 @@ How the penalty term impacts the objective function:
 * After implementing the penalty function if any of the $\beta_p$ turns out to 
   be 0, it means that it doesn't have an impact on the model as you are 
   multiplying the variable by 0 so it won't be included (for a change in that 
-  $\x_p$, there is no change in the model) --> the variables associated with the
+  $x_p$, there is no change in the model) --> the variables associated with the
   zeroes are then dropped from the final model
 * The variables that are co-linear are shrunk to 0, therefore eliminating those 
   variables from the final model (deems that variable not important)
