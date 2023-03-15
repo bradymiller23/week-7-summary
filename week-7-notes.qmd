@@ -369,6 +369,7 @@ z$backward()
 c(x$grad, y$grad)
 ```
 ###### Example 3
+
 ```{r}
 x <- torch_tensor(cars$speed, dtype = torch_float())
 y <- torch_tensor(cars$dist, dtype = torch_float())
@@ -446,7 +447,7 @@ Split data into training (80%) and testing sets (20%)
 
 ```{r}
 k <- 5
-fold <- sample(1:nrow(df), nrow(df)/5)
+fold <- sample(1:nrow(df), nrow(df)/k)
 fold
 ```
 * AIC is a goodness of fit parameter (similar to $R^2$)
@@ -467,6 +468,7 @@ nrow(test) + nrow(train) - nrow(df)
 model <- lm(medv ~., data = train)
 summary(model)
 ```
+
 ```{r}
 y_test <- predict(model, newdata = test)
 ```

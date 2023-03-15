@@ -4,7 +4,7 @@ author: "Brady Miller"
 title-block-banner: true
 title-block-style: default
 toc: true
-#format: html
+# format: html
 format: pdf
 ---
 
@@ -337,7 +337,7 @@ see how the loss function progress at given indexes, along with the associated
 fitted line for the distance and speed plot
 ```{r}
 options(repr.plot.width=12, repr.plot.height=7)
-steps <- 2000
+steps <- 500
 L <- rep(Inf, steps)
 eta <- 1e-7
 b <- 10 * rnorm(2)
@@ -517,7 +517,7 @@ Spliting data into training (80%) and testing sets (20%)
 
 ```{r}
 k <- 5
-fold <- sample(1:nrow(df), nrow(df)/5)
+fold <- sample(1:nrow(df), nrow(df)/k)
 fold
 ```
 * AIC is a goodness of fit parameter (similar to $R^2$)
@@ -568,12 +568,11 @@ folds <- sample(1:k, nrow(df), replace = T)
 ```
 
 ```{r}
+# function fo creating training sets for 5 folds of the data set
 df_folds <- list()
 
 for (i in 1:k){
   df_folds[[i]] <- list()
   df_folds[[i]]$train = df
 }
-
-df_folds
 ```
